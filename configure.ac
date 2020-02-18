@@ -11,7 +11,7 @@ AC_CONFIG_AUX_DIR([build/autotools/build])
 AX_THOR_FUNC_BUILD
 
 
-AC_CONFIG_SRCDIR([src/ThorsUI/ThorsUI.cpp])
+AC_CONFIG_SRCDIR([src/ThorsUI/Animateable.cpp])
 
 # Find the C++ Copiler
 # The minimumm requirements.
@@ -31,6 +31,25 @@ LT_INIT
 #
 # Add your defintions in here.
 # Note there are some predefined macros in build/autotools/m4/
+AC_CHECK_PROG(CHECK_WX_WIDGET, wx-config, yes)
+AS_IF([test x"${CHECK_WX_WIDGET}" != x"yes"],
+      [AC_MSG_ERROR([
+This library depends on the development version of wxWidgets being installed.
+
+Please check out https://www.wxwidgets.org/ and follow the instructions to download and install.
+
+Current version can be installed with:
+
+    > wget https://github.com/wxWidgets/wxWidgets/archive/v3.1.3.tar.gz
+    > tar xvf v3.1.3.tar.gz
+    > cd wxWidgets-3.1.3/
+    > mkdir build-cocoa-debug
+    > cd build-cocoa-debug
+    > ../configure --enable-debug
+    > make
+    > sudo make install
+
+])])
 
 
 
