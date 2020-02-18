@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_VALKYRIE_UI_PANEL_ANIMATEABLE_H
-#define THORSANVIL_VALKYRIE_UI_PANEL_ANIMATEABLE_H
+#ifndef THORSANVIL_THORSUI_UI_PANEL_ANIMATEABLE_H
+#define THORSANVIL_THORSUI_UI_PANEL_ANIMATEABLE_H
 
 #include "UIPanelDrawable.h"
 #include "Animateable.h"
@@ -17,6 +17,8 @@ class PanelAnimateable: public PanelDrawable
         PanelAnimateable(wxWindow* parent, Animateable& drawing);
 
         void advance();
+    private:
+        DECLARE_EVENT_TABLE()
 };
 
     }

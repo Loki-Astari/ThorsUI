@@ -3,6 +3,7 @@
 using namespace ThorsAnvil::ThorsUI;
 
 BEGIN_EVENT_TABLE(PanelAnimateableRunner, wxPanel)
+    EVT_PAINT(PanelDrawable::onPaint)
     EVT_TIMER(TIMER_ID, PanelAnimateableRunner::onTimer)
 END_EVENT_TABLE()
 

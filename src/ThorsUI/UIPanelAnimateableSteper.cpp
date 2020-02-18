@@ -3,6 +3,7 @@
 using namespace ThorsAnvil::ThorsUI;
 
 BEGIN_EVENT_TABLE(PanelAnimateableSteper, wxPanel)
+    EVT_PAINT(PanelDrawable::onPaint)
     EVT_LEFT_DCLICK(PanelAnimateableSteper::onDoubleClick)
 END_EVENT_TABLE()
 

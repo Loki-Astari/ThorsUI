@@ -4,6 +4,7 @@ using namespace ThorsAnvil::ThorsUI;
 
 BEGIN_EVENT_TABLE(PanelDrawableClickAction, wxPanel)
     EVT_LEFT_DCLICK(PanelDrawableClickAction::onDoubleClick)
+    EVT_PAINT(PanelDrawable::onPaint)
 END_EVENT_TABLE()
 
 PanelDrawableClickAction::PanelDrawableClickAction(wxWindow* parent, Drawable& drawing, Action&& action)
