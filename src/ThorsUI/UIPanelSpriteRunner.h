@@ -38,6 +38,7 @@ class PanelSpriteRunner: public ThorsUI::PanelAnimateableRunner, public ThorsUI:
         virtual int     animationMaxStep()                  const override;
         virtual void    animateResetDo(wxDC& dc)                  override;
         virtual void    animationStepDo(wxDC& dc, int step)       override;
+        virtual void    animateResetActionDone(wxDC& dc);
 };
 
 

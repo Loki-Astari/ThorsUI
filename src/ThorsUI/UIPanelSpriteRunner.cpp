@@ -30,7 +30,7 @@ int PanelSpriteRunner::animationMaxStep() const
     return maxSteps;
 }
 
-void PanelSpriteRunner::animateResetDo(wxDC& /*dc*/)
+void PanelSpriteRunner::animateResetDo(wxDC& dc)
 {
     // Called when all the sprites are complete.
     // Reset the animationMaxStep() so we don't do more animation and subsequent calls
@@ -38,7 +38,7 @@ void PanelSpriteRunner::animateResetDo(wxDC& /*dc*/)
     if (active)
     {
         active      = false;
-        // Callback to mark completion
+        animateResetActionDone(dc);
     }
     maxSteps    = 0;
 }
@@ -57,6 +57,10 @@ void PanelSpriteRunner::animationStepDo(wxDC& /*dc*/, int /*step*/)
     }
 }
 
+void PanelSpriteRunner::animateResetActionDone(wxDC& /*dc*/)
+{
+    /* Do Nothing by default. */
+}
 
 PanelSpriteRunner::Sprite::Sprite(MoveAction&& action, ThorsUtil::Pos const& start, ThorsUtil::Delta const& delta, int maxStep)
     : moveAction(std::move(action))
