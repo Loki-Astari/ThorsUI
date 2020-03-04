@@ -10,18 +10,16 @@ namespace ThorsAnvil
     namespace ThorsUI
     {
 
-using MoveAction = std::function<void(ThorsUtil::Pos const& start, ThorsUtil::Delta const& delta, int step)>;
+using MoveAction = std::function<void(int step)>;
 class PanelSpriteRunner: public ThorsUI::PanelAnimateableRunner, public ThorsUI::Animateable
 {
     struct Sprite
     {
         MoveAction          moveAction;
-        ThorsUtil::Pos      start;
-        ThorsUtil::Delta    delta;
         int                 maxStep;
         int                 currentStep;
 
-        Sprite(MoveAction&& action, ThorsUtil::Pos const& start, ThorsUtil::Delta const& delta, int maxStep);
+        Sprite(MoveAction&& action, int maxStep);
     };
 
     std::vector<Sprite>             sprites;
@@ -30,7 +28,7 @@ class PanelSpriteRunner: public ThorsUI::PanelAnimateableRunner, public ThorsUI:
 
     public:
         PanelSpriteRunner(wxWindow* parent);
-        void addSprite(MoveAction&& action, ThorsUtil::Pos const& start, ThorsUtil::Delta const& delta, int steps);
+        void addSprite(MoveAction&& action, int steps);
 
     private:
         virtual wxSize  getSize()                           const override;

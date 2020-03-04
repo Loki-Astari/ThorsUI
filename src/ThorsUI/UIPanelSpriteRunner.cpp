@@ -9,9 +9,9 @@ PanelSpriteRunner::PanelSpriteRunner(wxWindow* parent)
     , maxSteps(0)
 {}
 
-void PanelSpriteRunner::addSprite(MoveAction&& action, ThorsUtil::Pos const& start, ThorsUtil::Delta const& delta, int steps)
+void PanelSpriteRunner::addSprite(MoveAction&& action, int steps)
 {
-    sprites.emplace_back(std::move(action), start, delta, steps);
+    sprites.emplace_back(std::move(action), steps);
     maxSteps = std::max(maxSteps, steps + 1);
     active = true;
 }
@@ -49,7 +49,7 @@ void PanelSpriteRunner::animationStepDo(wxDC& /*dc*/, int /*step*/)
     {
         for (auto& sprite: sprites)
         {
-            sprite.moveAction(sprite.start, sprite.delta, sprite.currentStep);
+            sprite.moveAction(sprite.currentStep);
             ++sprite.currentStep;
         }
 
@@ -62,10 +62,8 @@ void PanelSpriteRunner::animateResetActionDone(wxDC& /*dc*/)
     /* Do Nothing by default. */
 }
 
-PanelSpriteRunner::Sprite::Sprite(MoveAction&& action, ThorsUtil::Pos const& start, ThorsUtil::Delta const& delta, int maxStep)
+PanelSpriteRunner::Sprite::Sprite(MoveAction&& action, int maxStep)
     : moveAction(std::move(action))
-    , start(start)
-    , delta(delta)
     , maxStep(maxStep)
     , currentStep(0)
 {}
