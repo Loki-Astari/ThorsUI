@@ -28,7 +28,7 @@ class PanelSpriteRunner: public ThorsUI::PanelAnimateableRunner, public ThorsUI:
 
     public:
         PanelSpriteRunner(wxWindow* parent);
-        void addSprite(MoveAction&& action, int steps);
+        void addSprite(int steps, MoveAction&& action);
 
     private:
         virtual wxSize  getSize()                           const override;

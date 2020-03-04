@@ -9,7 +9,7 @@ PanelSpriteRunner::PanelSpriteRunner(wxWindow* parent)
     , maxSteps(0)
 {}
 
-void PanelSpriteRunner::addSprite(MoveAction&& action, int steps)
+void PanelSpriteRunner::addSprite(int steps, MoveAction&& action)
 {
     sprites.emplace_back(std::move(action), steps);
     maxSteps = std::max(maxSteps, steps + 1);
