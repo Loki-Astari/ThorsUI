@@ -1,8 +1,8 @@
 #ifndef THORSANVIL_THORSUI_UI_PANEL_SPRITE_RUNNER_H
 #define THORSANVIL_THORSUI_UI_PANEL_SPRITE_RUNNER_H
 
-#include "ThorsUI/Animateable.h"
-#include "ThorsUI/UIPanelAnimateableRunner.h"
+#include "Animateable.h"
+#include "UIPanelAnimateableRunner.h"
 #include "ThorsUtil/Util.h"
 
 namespace ThorsAnvil

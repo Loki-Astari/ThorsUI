@@ -1,5 +1,5 @@
 #include "UIPanelSpriteRunner.h"
-#include "ThorsUI/UIPanelDrawable.h"
+#include "UIPanelDrawable.h"
 
 using namespace ThorsAnvil::ThorsUI;
 
