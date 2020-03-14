@@ -10,10 +10,11 @@ namespace ThorsAnvil
 
 class PanelDrawable: public wxPanel
 {
-    Drawable const&         drawing;
+    Drawable&         drawing;
 
     public:
-        PanelDrawable(wxWindow* parent, Drawable const& drawing);
+        PanelDrawable(wxWindow* parent, Drawable& drawing);
+        virtual ~PanelDrawable();
 
         void onPaint(wxPaintEvent& event);
 #pragma vera-pushoff
