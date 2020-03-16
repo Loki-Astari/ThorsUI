@@ -12,8 +12,9 @@ PanelSpriteRunner::PanelSpriteRunner(wxWindow* parent)
 void PanelSpriteRunner::addSprite(int steps, MoveAction&& action)
 {
     sprites.emplace_back(std::move(action), steps);
-    maxSteps = std::max(maxSteps, steps + 1);
+    maxSteps = std::max(maxSteps, steps + 8);
     active = true;
+
 }
 
 wxSize PanelSpriteRunner::getSize() const

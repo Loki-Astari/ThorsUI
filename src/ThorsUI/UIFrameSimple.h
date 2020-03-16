@@ -10,18 +10,36 @@ namespace ThorsAnvil
     namespace ThorsUI
     {
 
-template<typename T>
+template<typename T, int = 0>
 struct FrameSimplePanelTraits
 {
     using PanelType = PanelDrawable;
 };
 
+#if 0
+template<typename D>
+struct FrameSimplePanelTraits<D, 0>
+{
+    using PanelType = typename D::FrameSimplePanelType;
+};
+#endif
+
+class SimplePanelBuilder
+{
+    public:
+        virtual ~SimplePanelBuilder() {}
+        virtual void addItems(wxWindow* panel, wxSizer* sizer) const= 0;
+};
+
 class FrameSimple: public wxFrame
 {
-    struct PanelAdder
+    template<typename T, typename V = void>
+    struct PanelAdder;
+
+    template<typename T>
+    struct PanelAdder<T, std::enable_if_t<std::is_base_of_v<Drawable, T>>>
     {
-        template<typename T>
-        PanelAdder(wxFrame* parent, wxSizer* sizer, bool& first, T& drawable)
+        PanelAdder(wxFrame* parent, wxSizer* sizer, bool& first, Drawable& drawable)
         {
             if (!first)
             {
@@ -33,18 +51,29 @@ class FrameSimple: public wxFrame
             first = false;
         }
     };
+
+    template<typename T>
+    struct PanelAdder<T, std::enable_if_t<std::is_base_of_v<SimplePanelBuilder, T>>>
+    {
+        PanelAdder(wxWindow* parent, wxSizer* sizer, bool& first, SimplePanelBuilder const& builder)
+        {
+            builder.addItems(parent, sizer);
+            first = false;
+        }
+    };
+
     public:
         template<typename... Args>
-        FrameSimple(wxWindow* parent, wxWindowID id, wxString const& title, int orientation /* wxVERTICAL or wxHORIZONTAL*/, Args&... args)
-            : FrameSimple(parent, id, title, new wxBoxSizer(orientation), args...)
+        FrameSimple(wxWindow* parent, wxWindowID id, wxString const& title, int orientation /* wxVERTICAL or wxHORIZONTAL*/, wxPoint const& pos, Args&... args)
+            : FrameSimple(parent, id, title, new wxBoxSizer(orientation), pos, args...)
         {}
 
         template<typename... Args>
-        FrameSimple(wxWindow* parent, wxWindowID id, wxString const& title, wxSizer* sizer, Args&... args)
-            : wxFrame(parent, id , title)
+        FrameSimple(wxWindow* parent, wxWindowID id, wxString const& title, wxSizer* sizer, wxPoint const& pos, Args&... args)
+            : wxFrame(parent, id , title, pos)
         {
             bool                        first  {true};
-            std::initializer_list<int>  ignore {0, (PanelAdder(this, sizer, first, args), 0)...};
+            std::initializer_list<int>  ignore {0, (PanelAdder<Args>(this, sizer, first, args), 0)...};
             (void)ignore;
 
             SetSizerAndFit(sizer);
@@ -52,21 +81,21 @@ class FrameSimple: public wxFrame
 };
 
 template<typename... Args>
-FrameSimple* make_FrameSimpleHorz(wxWindow* parent, wxWindowID id, wxString const& title, Args&... args)
+FrameSimple* make_FrameSimpleHorz(wxWindow* parent, wxWindowID id, wxString const& title, wxPoint const& pos, Args&... args)
 {
-    return new FrameSimple(parent, id, title, wxHORIZONTAL, args...);
+    return new FrameSimple(parent, id, title, wxHORIZONTAL, pos, args...);
 }
 
 template<typename... Args>
-FrameSimple* make_FrameSimpleVert(wxWindow* parent, wxWindowID id, wxString const& title, Args&... args)
+FrameSimple* make_FrameSimpleVert(wxWindow* parent, wxWindowID id, wxString const& title, wxPoint const& pos, Args&... args)
 {
-    return new FrameSimple(parent, id, title, wxVERTICAL, args...);
+    return new FrameSimple(parent, id, title, wxVERTICAL, pos, args...);
 }
 
 template<typename... Args>
-FrameSimple* make_FrameSimple(wxWindow* parent, wxWindowID id, wxString const& title, wxSizer* sizer, Args&... args)
+FrameSimple* make_FrameSimple(wxWindow* parent, wxWindowID id, wxString const& title, wxSizer* sizer, wxPoint const& pos, Args&... args)
 {
-    return new FrameSimple(parent, id, title, sizer, args...);
+    return new FrameSimple(parent, id, title, sizer, pos, args...);
 }
 
     }
